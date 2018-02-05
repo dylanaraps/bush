@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 #
 # Standard functions.
-unset PATH
 
 basename() {
     # Get the basename of a path.
@@ -55,7 +54,15 @@ upper() {
 }
 
 date() {
-   # Output the date/time.
-   # Usage: date "format"
-   printf "%($1)T\\n"
+    # Output the date/time.
+    # Usage: date "format"
+    printf "%($1)T\\n"
+}
+
+head() {
+    # Output n lines from a file.
+    # Usage: head "n" "file"
+    lines=$(($1>0?$1:1))
+    mapfile -tn "$lines" line < "${2:-$1}"
+    printf "%s\\n" "${line[@]}"
 }
