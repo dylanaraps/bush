@@ -43,13 +43,13 @@ trim() {
 }
 
 lower() {
-    # Lowercase a string..
+    # Lowercase a string.
     # Usage: lower "string"
     printf "%s\\n" "${1,,}"
 }
 
 upper() {
-    # Lowercase a string..
+    # Uppercase a string.
     # Usage: lower "string"
     printf "%s\\n" "${1^^}"
 }
