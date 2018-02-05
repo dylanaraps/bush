@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+#
+# Standard functions.
+
+basename() {
+    # Get the basename of a path.
+    # Usage: basename "path"
+    printf "%s\\n" "${1##*/}"
+}
+
+dirname() {
+    # Get the dirname of a path.
+    # Usage: dirname "path"
+    printf "%s\\n" "${1%/*}/"
+}
+
+strip() {
+    # Strip characters from a string.
+    # Usage: strip "string" "chars to remove"
+    printf "%s\\n" "${1//$2}"
+}
+
+rstrip() {
+    # Strip characters from the end of a string.
+    # Usage: rstrip "string" "chars to remove"
+    printf "%s\\n" "${1%%$2}"
+}
+
+lstrip() {
+    # Strip characters from the start of a string.
+    # Usage: lstrip "string" "chars to remove"
+    printf "%s\\n" "${1##$2}"
+}
+
+trim() {
+    # Trim whitespace from a string.
+    # Usage: trim "string"
+    set -f
+    builtin echo -E ${1//[[:space:]]/ }
+    set +f
+}
