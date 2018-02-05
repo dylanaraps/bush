@@ -60,9 +60,25 @@ date() {
 }
 
 head() {
-    # Output n lines from a file.
+    # Output n lines from the start of a file.
     # Usage: head "n" "file"
-    lines=$(($1>0?$1:1))
-    mapfile -tn "$lines" line < "${2:-$1}"
+    local lines
+    lines=$((${1:-1}>0?${1:-10}:10))
+    mapfile -tn "$lines" line < "${2:-${1:-/etc/os-release}}"
     printf "%s\\n" "${line[@]}"
+}
+
+tail() {
+    # Output n lines from the end of a file.
+    # Usage: tail "n" "file"
+    local lines
+    lines=$((${1:-1}>0?${1:-10}:10))
+    mapfile -tn 0 line < "${2:-${1:-/etc/os-release}}"
+
+    f(){ line=("${BASH_ARGV[@]}"); }
+    shopt -s extdebug
+    f "${line[@]}"
+    shopt -u extdebug
+
+    printf "%s\\n" "${line[@]:0:${lines}}"
 }
