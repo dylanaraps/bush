@@ -85,15 +85,20 @@ cat() {
 head() {
     # Output n lines from the start of a file.
     # Usage: head "n" "file"
-    lines=$((${1:-1}>0?${1:-10}:10))
-    mapfile -tn "$lines" line < "${2:-${1:-/etc/os-release}}"
+    mapfile -tn "$1" line < "${2:-/etc/os-release}"
     printf "%s\\n" "${line[@]}"
 }
 
 tail() {
     # Output n lines from the end of a file.
     # Usage: tail "n" "file"
-    lines=$((${1:-1}>0?${1:-10}:10))
-    mapfile -tn 0 line < "${2:-${1:-/etc/os-release}}"
-    printf "%s\\n" "${line[@]: -${lines}}"
+    mapfile -tn 0 line < "${2:-/etc/os-release}"
+    printf "%s\\n" "${line[@]: -$1}"
+}
+
+lines() {
+    # Count the lines in a file.
+    # Usage lines "file"
+    mapfile -tn 0 lines < "$1"
+    printf "%s\\n" "${#lines[@]}"
 }
