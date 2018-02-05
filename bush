@@ -102,3 +102,16 @@ lines() {
     mapfile -tn 0 lines < "$1"
     printf "%s\\n" "${#lines[@]}"
 }
+
+reverse_array() {
+    # Reverse an array.
+    # Usage: reverse_array "array"
+
+    # extdebug reverses arguments for some reason.
+    # We can use this to reverse an array.
+    shopt -s extdebug
+    f()(printf "%s " "${BASH_ARGV[@]}"); f "$@"
+    shopt -u extdebug
+
+    printf "\\n"
+}
