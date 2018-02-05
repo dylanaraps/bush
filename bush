@@ -44,7 +44,6 @@ trim() {
     #
     # The whitespace trim doesn't work with multiline strings so we use
     # "${1//[[:space:]]/ }" to remove newlines before we trim the whitespace.
-
     set -f
     builtin echo -E ${1//[[:space:]]/ }
     set +f
@@ -53,7 +52,6 @@ trim() {
 trim_quotes() {
     # Trim quotes from a string.
     # Usage: trim_quotes "string"
-    local trim
     trim="${1//\'}"
     printf "%s\\n" "${trim//\"}"
 }
@@ -77,6 +75,8 @@ date() {
 }
 
 cat() {
+    # Output the contents of files.
+    # Usage: cat "file" "file" "file"
     for file in "$@"; do
         printf "%s\\n" "$(<"$file")"
     done
