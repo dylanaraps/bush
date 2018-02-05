@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # Standard functions.
+unset PATH
 
 basename() {
     # Get the basename of a path.
@@ -36,6 +37,6 @@ trim() {
     # Trim whitespace from a string.
     # Usage: trim "string"
     set -f
-    builtin echo -E ${1//[[:space:]]/ }
+    echo -E ${1//[[:space:]]/ }
     set +f
 }
