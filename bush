@@ -157,3 +157,14 @@ uptime() {
 
     printf "%s\\n" "up ${uptime:-${seconds} seconds}"
 }
+
+colors() {
+    # Display the terminal palette.
+    # Usage: colors
+    for i in {0..15}; do
+        ((i%8==0)) && printf "\\n"
+        printf "%b" "\\e[48;05;${i}m  \\e[0m"
+    done
+
+    printf "\\n\\n"
+}
