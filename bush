@@ -75,6 +75,12 @@ date() {
     printf "%($1)T\\n"
 }
 
+cat() {
+    for file in "$@"; do
+        printf "%s\\n" "$(<"$file")"
+    done
+}
+
 head() {
     # Output n lines from the start of a file.
     # Usage: head "n" "file"
