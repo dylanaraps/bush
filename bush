@@ -53,3 +53,9 @@ upper() {
     # Usage: lower "string"
     printf "%s\\n" "${1^^}"
 }
+
+date() {
+   # Output the date/time.
+   # Usage: date "format"
+   printf "%($1)T\\n"
+}
