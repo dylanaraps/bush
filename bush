@@ -33,10 +33,23 @@ lstrip() {
     printf "%s\\n" "${1##$2}"
 }
 
+# shellcheck disable=2086
 trim() {
     # Trim whitespace from a string.
     # Usage: trim "string"
     set -f
     echo -E ${1//[[:space:]]/ }
     set +f
+}
+
+lower() {
+    # Lowercase a string..
+    # Usage: lower "string"
+    printf "%s\\n" "${1,,}"
+}
+
+upper() {
+    # Lowercase a string..
+    # Usage: lower "string"
+    printf "%s\\n" "${1^^}"
 }
