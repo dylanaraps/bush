@@ -34,11 +34,27 @@ lstrip() {
 
 # shellcheck disable=2086
 trim() {
-    # Trim whitespace from a string.
-    # Usage: trim "string"
+    # When a string is passed to "echo" all trailing and leading
+    # whitespace is removed and inside the string multiple spaces are
+    # condensed into single spaces.
+    #
+    # The "set -f/+f" is here so that "echo" doesn't cause any expansion
+    # of special characters.
+    #
+    # The whitespace trim doesn't work with multiline strings so we use
+    # "${1//[[:space:]]/ }" to remove newlines before we trim the whitespace.
+
     set -f
-    echo -E ${1//[[:space:]]/ }
+    builtin echo -E ${1//[[:space:]]/ }
     set +f
+}
+
+trim_quotes() {
+    # Trim quotes from a string.
+    # Usage: trim_quotes "string"
+    local trim
+    trim="${1//\'}"
+    printf "%s\\n" "${trim//\"}"
 }
 
 lower() {
@@ -75,6 +91,8 @@ tail() {
     lines=$((${1:-1}>0?${1:-10}:10))
     mapfile -tn 0 line < "${2:-${1:-/etc/os-release}}"
 
+    # When extdebug is enabled and a function is called, it's
+    # arguments are reversed. This is how we reverse the array.
     f(){ line=("${BASH_ARGV[@]}"); }
     shopt -s extdebug
     f "${line[@]}"
