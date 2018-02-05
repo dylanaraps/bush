@@ -5,7 +5,8 @@
 basename() {
     # Get the basename of a path.
     # Usage: basename "path"
-    printf "%s\\n" "${1##*/}"
+    path="${1%/}"
+    printf "%s\\n" "${path##*/}"
 }
 
 dirname() {
@@ -84,7 +85,6 @@ cat() {
 head() {
     # Output n lines from the start of a file.
     # Usage: head "n" "file"
-    local lines
     lines=$((${1:-1}>0?${1:-10}:10))
     mapfile -tn "$lines" line < "${2:-${1:-/etc/os-release}}"
     printf "%s\\n" "${line[@]}"
@@ -93,16 +93,7 @@ head() {
 tail() {
     # Output n lines from the end of a file.
     # Usage: tail "n" "file"
-    local lines
     lines=$((${1:-1}>0?${1:-10}:10))
     mapfile -tn 0 line < "${2:-${1:-/etc/os-release}}"
-
-    # When extdebug is enabled and a function is called, it's
-    # arguments are reversed. This is how we reverse the array.
-    f(){ line=("${BASH_ARGV[@]}"); }
-    shopt -s extdebug
-    f "${line[@]}"
-    shopt -u extdebug
-
-    printf "%s\\n" "${line[@]:0:${lines}}"
+    printf "%s\\n" "${line[@]: -${lines}}"
 }
