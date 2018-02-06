@@ -33,19 +33,11 @@ lstrip() {
     printf "%s\\n" "${1##$2}"
 }
 
-# shellcheck disable=2086
+# shellcheck disable=SC2086,SC2048
 trim() {
-    # When a string is passed to "echo" all trailing and leading
-    # whitespace is removed and inside the string multiple spaces are
-    # condensed into single spaces.
-    #
-    # The "set -f/+f" is here so that "echo" doesn't cause any expansion
-    # of special characters.
-    #
-    # The whitespace trim doesn't work with multiline strings so we use
-    # "${1//[[:space:]]/ }" to remove newlines before we trim the whitespace.
     set -f
-    builtin echo -E ${1//[[:space:]]/ }
+    set -- $*
+    printf "%s\\n" "$*"
     set +f
 }
 
